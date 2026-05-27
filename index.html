@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Local AI Lead Engine</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Base44 affiliate lead ops</p>
+        <h1>Local AI Lead Engine</h1>
+      </div>
+      <div class="top-actions">
+        <button id="seedBtn" class="secondary" type="button" title="Load example local service leads">Load Examples</button>
+        <button id="exportBtn" type="button" title="Export current leads to CSV">Export CSV</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="metrics" aria-label="Lead metrics">
+        <div class="metric">
+          <span>Total Leads</span>
+          <strong id="totalMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Hot Leads</span>
+          <strong id="hotMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Spanish Segment</span>
+          <strong id="spanishMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Booked Calls</span>
+          <strong id="bookedMetric">0</strong>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel">
+          <div class="panel-heading">
+            <h2>Add Lead</h2>
+            <span id="editBadge" class="badge muted">New</span>
+          </div>
+
+          <form id="leadForm">
+            <label>
+              Business
+              <input id="business" name="business" required placeholder="Garcia Roofing">
+            </label>
+            <label>
+              Owner / Contact
+              <input id="contact" name="contact" placeholder="Maria Garcia">
+            </label>
+            <label>
+              Niche
+              <select id="niche" name="niche">
+                <option>Roofing</option>
+                <option>HVAC</option>
+                <option>Plumbing</option>
+                <option>Med Spa</option>
+                <option>Cleaning</option>
+                <option>Landscaping</option>
+                <option>Auto Detailing</option>
+                <option>Restaurant/Catering</option>
+                <option>Real Estate</option>
+                <option>Other Local Service</option>
+              </select>
+            </label>
+            <label>
+              Language
+              <select id="language" name="language">
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Bilingual">Bilingual</option>
+              </select>
+            </label>
+            <label>
+              Pain Signal
+              <select id="pain" name="pain">
+                <option value="5">Missed calls / slow follow-up</option>
+                <option value="5">No booking or quote intake</option>
+                <option value="4">Outdated website</option>
+                <option value="4">Heavy DMs / manual admin</option>
+                <option value="3">No lead magnet or funnel</option>
+                <option value="2">General AI curiosity</option>
+              </select>
+            </label>
+            <label>
+              Buying Signal
+              <select id="buying" name="buying">
+                <option value="5">Running ads or hiring</option>
+                <option value="4">Recent growth / many reviews</option>
+                <option value="4">Posts daily on social</option>
+                <option value="3">Active website and socials</option>
+                <option value="2">Limited online activity</option>
+              </select>
+            </label>
+            <label>
+              Best Base44 App Idea
+              <input id="appIdea" name="appIdea" placeholder="AI quote intake + follow-up dashboard">
+            </label>
+            <label>
+              Contact Link
+              <input id="link" name="link" placeholder="Website, Google Maps, IG, or Facebook URL">
+            </label>
+            <label>
+              Status
+              <select id="status" name="status">
+                <option>New</option>
+                <option>Contacted</option>
+                <option>Replied</option>
+                <option>Booked</option>
+                <option>Affiliate Sent</option>
+                <option>Won</option>
+                <option>Not Fit</option>
+              </select>
+            </label>
+            <label>
+              Notes
+              <textarea id="notes" name="notes" rows="4" placeholder="Why they need AI, who should call, and next step"></textarea>
+            </label>
+            <input id="editingId" type="hidden">
+            <button id="saveBtn" type="submit">Save Lead</button>
+          </form>
+        </aside>
+
+        <section class="panel table-panel">
+          <div class="panel-heading split">
+            <div>
+              <h2>Lead Queue</h2>
+              <p>Sort by score, then send the best ones to setters first.</p>
+            </div>
+            <div class="filters">
+              <input id="searchInput" placeholder="Search leads">
+              <select id="languageFilter" aria-label="Filter by language">
+                <option value="All">All languages</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Bilingual">Bilingual</option>
+                <option value="English">English</option>
+              </select>
+              <select id="statusFilter" aria-label="Filter by status">
+                <option value="All">All statuses</option>
+                <option>New</option>
+                <option>Contacted</option>
+                <option>Replied</option>
+                <option>Booked</option>
+                <option>Affiliate Sent</option>
+                <option>Won</option>
+                <option>Not Fit</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Score</th>
+                  <th>Business</th>
+                  <th>Niche</th>
+                  <th>Language</th>
+                  <th>AI App Angle</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leadRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="workspace lower">
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Outreach Generator</h2>
+            <span class="badge">Bilingual</span>
+          </div>
+          <label>
+            Select Lead
+            <select id="messageLead"></select>
+          </label>
+          <div class="script-tabs">
+            <button class="tab active" data-template="email" type="button">Email</button>
+            <button class="tab" data-template="dm" type="button">DM</button>
+            <button class="tab" data-template="call" type="button">Call Opener</button>
+          </div>
+          <textarea id="messageBox" rows="10" readonly></textarea>
+          <button id="copyBtn" class="secondary" type="button">Copy Script</button>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Lead Finder</h2>
+            <span class="badge muted">Spanish signals</span>
+          </div>
+          <div class="finder-grid">
+            <button class="finder" data-query='site:instagram.com "estimados gratis" "roofing" "{{city}}"'>Spanish roofing IG</button>
+            <button class="finder" data-query='site:facebook.com "plomeria" "{{city}}" "servicios"'>Spanish plumbing FB</button>
+            <button class="finder" data-query='"se habla español" "hvac" "{{city}}"'>Bilingual HVAC</button>
+            <button class="finder" data-query='"cotizacion gratis" "limpieza" "{{city}}"'>Cleaning quote</button>
+            <button class="finder" data-query='"servicio de jardineria" "{{city}}" "Google reviews"'>Landscaping</button>
+            <button class="finder" data-query='"car detailing" "se habla español" "{{city}}"'>Auto detailing</button>
+          </div>
+          <label>
+            City / Area
+            <input id="cityInput" placeholder="Miami, FL">
+          </label>
+          <textarea id="queryBox" rows="5" readonly></textarea>
+          <button id="copyQueryBtn" class="secondary" type="button">Copy Search</button>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
